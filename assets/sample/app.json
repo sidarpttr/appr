@@ -1,0 +1,187 @@
+{
+    "schemaVersion": 1,
+    "theme": {
+        "colors": {
+            "primary": "#6750A4"
+        }
+    },
+    "routes": [
+        {
+            "name": "home",
+            "path": "/",
+            "screen": "home"
+        },
+        {
+            "name": "detail",
+            "path": "/detail/:id",
+            "screen": "detail"
+        }
+    ],
+    "screens": [
+        {
+            "id": "home",
+            "layout": {
+                "type": "Column",
+                "children": [
+                    {
+                        "type": "Text",
+                        "props": {
+                            "text": "Sidar Adıgüzel",
+                            "style": {
+                                "fontSize": 22,
+                                "fontWeight": "semibold",
+                                "color": "#1F1F1F"
+                            },
+                            "padding": "4,8"
+                        }
+                    },
+                    {
+                        "type": "Text",
+                        "props": {
+                            "text": "Aşağıdan kullanıcıları yükleyip detayına geçebilirsin.",
+                            "style": {
+                                "color": "#666666"
+                            },
+                            "padding": "0,8,12,8",
+                            "bg": "#F7F7F7",
+                            "radius": 10
+                        }
+                    },
+                    {
+                        "type": "Button",
+                        "props": {
+                            "text": "Ürünleri Yükle",
+                            "variant": "elevated",
+                            "padding": "10,14",
+                            "radius": 12
+                        },
+                        "actions": [
+                            {
+                                "type": "apiCall",
+                                "id": "products"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "Expanded",
+                        "child": {
+                            "type": "ListView",
+                            "props": {
+                                "separatorText": ""
+                            },
+                            "bindings": {
+                                "items": "${datasources.products.data}"
+                            },
+                            "itemBuilder": {
+                                "type": "Card",
+                                "props": {
+                                    "bg": "#FFFFFF",
+                                    "radius": 12,
+                                    "padding": "12",
+                                    "margin": "8,0"
+                                },
+                                "child": {
+                                    "type": "Column",
+                                    "props": {
+                                        "crossAxisAlignment": "start"
+                                    },
+                                    "children": [
+                                        {
+                                            "type": "Text",
+                                            "props": {
+                                                "text": "${item.name}",
+                                                "style": {
+                                                    "fontSize": 18,
+                                                    "fontWeight": "semibold",
+                                                    "color": "#222222"
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "type": "Spacer",
+                                            "props": {
+                                                "height": 4
+                                            }
+                                        },
+                                        {
+                                            "type": "Text",
+                                            "props": {
+                                                "text": "${item.email}",
+                                                "style": {
+                                                    "color": "#757575"
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "type": "Spacer",
+                                            "props": {
+                                                "height": 8
+                                            }
+                                        },
+                                        {
+                                            "type": "Button",
+                                            "props": {
+                                                "text": "Detaya Git",
+                                                "variant": "outlined",
+                                                "padding": "8,12",
+                                                "radius": 10
+                                            },
+                                            "actions": [
+                                                {
+                                                    "type": "navigate",
+                                                    "to": "detail",
+                                                    "params": {
+                                                        "id": "${item.id}"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "id": "detail",
+            "layout": {
+                "type": "Column",
+                "children": [
+                    {
+                        "type": "Text",
+                        "props": {
+                            "text": "Detay Ekranı",
+                            "style": {
+                                "fontSize": 22,
+                                "fontWeight": "semibold"
+                            },
+                            "padding": "4,8"
+                        }
+                    },
+                    {
+                        "type": "Text",
+                        "props": {
+                            "text": "Seçilen ID: ${route.id}",
+                            "style": {
+                                "color": "#555555"
+                            },
+                            "padding": "8,12",
+                            "bg": "#F7F7F7",
+                            "radius": 10
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "datasources": {
+        "products": {
+            "type": "rest",
+            "url": "https://jsonplaceholder.typicode.com/users",
+            "method": "GET",
+            "cache": "5m"
+        }
+    }
+}
